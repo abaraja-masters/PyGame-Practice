@@ -1,12 +1,23 @@
 # Game: This is a Guess the Number game via console.
 # Author: Anthony Baraja
 import random
+from os import system, name
+
+def clear():
+    # for windows
+    if name == 'nt':
+        _ = system('cls')
+    # for mac and linux(here, os.name is 'posix')
+    else:
+        _ = system('clear')
 
 numOfGuesses = 6
 
+clear()
 # Prompt user's name
 print('Hello! What is your name?')
 myName = input()
+clear()
 
 number = random.randint(1, 20)
 print(f'Well, {myName}, I am thinking of a number between 1 and 20.')
@@ -26,6 +37,8 @@ for guessesTaken in range(numOfGuesses):
     if guess == number:
         print()
         break
+
+clear()
 
 if guess == number:
     guessesTaken = str(guessesTaken + 1)
