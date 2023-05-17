@@ -1,3 +1,5 @@
+# Game: This is a sample Hello World app to test pygame window.
+# Author: Anthony Baraja
 import pygame, sys
 from pygame.locals import *
 
