@@ -243,10 +243,10 @@ def attack(event=0):
 	global used_gem
 	global num_dice
 	if used_gem == 1:
-	   player.adj_attack = old_attack
-	   main.refresh_bars()
-	   num_dice = 1
-	   used_gem = 0
+		player.adj_attack = old_attack
+		main.refresh_bars()
+		num_dice = 1
+		used_gem = 0
 	attack_player()
 	if can_leave() == 0:
 		active_button = -1
@@ -277,7 +277,7 @@ def select_monster():
 			active_button = i
 			break
 	else:
-		print "BUG: select_monster called when all monsters were dead"
+		print("BUG: select_monster called when all monsters were dead")
 		return -1
 
 	global return_from_dialog
@@ -353,7 +353,7 @@ def choose_monster_prev():
 			active_button = i
 			break
 		if i == active_button:
-			print "choose_monster_prev couldn't find a monster."
+			print("choose_monster_prev couldn't find a monster.")
 			active_button = -1
 			return -1
 	#help_text.set("Attack the " + monster_list[active_button].name)
@@ -371,7 +371,7 @@ def choose_monster_next():
 			active_button = i
 			break
 		if i == active_button:
-			print "choose_monster_next couldn't find a monster."
+			print("choose_monster_next couldn't find a monster.")
 			active_button = -1
 			return -1
 	#help_text.set("Attack the " + monster_list[active_button].name)

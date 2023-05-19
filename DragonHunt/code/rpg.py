@@ -27,7 +27,7 @@ try:
 	import psyco
 	psyco.full()
 except ImportError:
-	print "Psyco not found. Installing Psyco will increase performance."
+	print("Psyco not found. Installing Psyco will increase performance.")
 
 
 pygame.init()
@@ -67,8 +67,8 @@ if tmpjoycount > g.joy_num:
 	g.joystick = pygame.joystick.Joystick(g.joy_num)
 	g.joystick.init()
 elif tmpjoycount > 0:
-	print "Bad joystick_number detected. Did you unplug a joystick recently?"
-	print "Switching to first joystick."
+	print("Bad joystick_number detected. Did you unplug a joystick recently?")
+	print("Switching to first joystick.")
 	g.joystick = pygame.joystick.Joystick(0)
 	g.joystick.init()
 
@@ -329,15 +329,15 @@ def init_window():
 		for arg in sys.argv:
 			if arg.strip().lower() == "-debug":
 				g.debug = True
-				print "Activating debug mode"
+				print("Activating debug mode")
 			elif arg.strip().lower() == "-faststart":
 				g.faststart = True
-				print "Activating faststart mode"
+				print("Activating faststart mode")
 			else:
 				try:
 					mod_loc = array_mods.index(arg)
 				except ValueError:
-					print "Unknown module: " + arg
+					print("Unknown module: " + arg)
 					return 0
 				sel_mod(array_mods[mod_loc])
 				return 0

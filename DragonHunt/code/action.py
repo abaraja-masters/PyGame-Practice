@@ -48,7 +48,7 @@ def interpret_line(message):
 
 	#See if the string is formatted correctly.
 	if num_of_tildes % 2 == 1:
-		print "Unmatched ~ character: " + message
+		print("Unmatched ~ character: " + message)
 		return "Unmatched ~ character: " + message
 
 	#Interpret the embedded variables:
@@ -87,8 +87,8 @@ def activate_lines(x, y, z, commands):
 		elif temp == "if":
 			else_loc, endif_loc = find_if_else_block(commands[i+1:], i+1)
 			if (else_loc == -1) or (endif_loc == -1):
-				print "surrounding code:"
-				for line in commands: print line
+				print("surrounding code:")
+				for line in commands: print(line)
 				return "bad"
 			if activate_lines(x, y, z, commands[i+1:else_loc]) == 0:
 				return 0
@@ -96,16 +96,16 @@ def activate_lines(x, y, z, commands):
 		elif temp == "else":
 			else_loc, endif_loc = find_if_else_block(commands[i+1:], i+1)
 			if (else_loc == -1) or (endif_loc == -1):
-				print "surrounding code:"
-				for line in commands: print line
+				print("surrounding code:")
+				for line in commands: print(line)
 				return "bad"
 			if else_loc != endif_loc:
 				if activate_lines(x, y, z, commands[else_loc+1:endif_loc]) == 0:
 					return 0
 			i = endif_loc
 		elif temp == "bad":
-			print "surrounding code:"
-			for line in commands: print line
+			print("surrounding code:")
+			for line in commands: print(line)
 		i += 1
 	return 1
 
@@ -129,7 +129,7 @@ def find_if_else_block(commands, corrector):
 		elif commands[i][:5].lower() == "endif":
 			num_of_ifs -= 1
 	if else_loc == -1 or endif_loc == -1:
-		print "Unmatched if command. Ending script."
+		print("Unmatched if command. Ending script.")
 	return else_loc, endif_loc
 
 
@@ -155,8 +155,8 @@ def command_type(command):
 def match_parenth(command):
 	command = command.strip()
 	if command[0] != "(":
-		print "match_parenth() called with a bad string:"
-		print command
+		print("match_parenth() called with a bad string:")
+		print(command)
 		return -1
 	s=command[1:]
 	par_num = 0
@@ -177,8 +177,8 @@ def match_parenth(command):
 			else:
 				par_num -= 1
 		i += 1
-	print "match_parenth() cannot find the end of this parenthesis pair:"
-	print command
+	print("match_parenth() cannot find the end of this parenthesis pair:")
+	print(command)
 	return -1
 
 #Like match_parenth(), but allows beginning characters before the (. Meant for
@@ -187,8 +187,8 @@ def match_command(command):
 	command = command.strip()
 	tmp = command.find("(")
 	if tmp == -1:
-		print "match_command() called with a bad string:"
-		print command
+		print("match_command() called with a bad string:")
+		print(command)
 		return -1
 
 	return match_parenth(command[command.find("("):])+len(command[:command.find("(")])+2
@@ -200,8 +200,8 @@ def match_command(command):
 #for the literal " character.
 def match_quotes(command):
 	if command[0] != "\"":
-		print "match_quotes() called with a bad string:"
-		print command
+		print("match_quotes() called with a bad string:")
+		print(command)
 		return -1
 	is_code = 0
 	s=command[1:]
@@ -213,8 +213,8 @@ def match_quotes(command):
 				is_code = 1
 		else:
 			is_code = 0
-	print "match_quotes() cannot find the end of this string:"
-	print command
+	print("match_quotes() cannot find the end of this string:")
+	print(command)
 	return -1
 
 #Given a string, replace the sequence \n with the actual newline character.
@@ -272,8 +272,8 @@ def run_command(x, y, z, command):
 	#We now "know" the command is an actual command. Make sure.
 	if command.find("(") == -1 or match_parenth(command[command.find("("):]) \
 						!= len(command[command.find("("):])-2:
-		print "run_command called with a bad string:"
-		print command
+		print("run_command called with a bad string:")
+		print(command)
 		return "bad"
 
 	global has_dialog
@@ -437,16 +437,16 @@ def run_command(x, y, z, command):
 		if check_num_args(len(arg_list), 0, 0, "win"):
 			return script_win(x, y, z, arg_list)
 	else:
-		print "Bad action of: " + switch + " given."
+		print("Bad action of: " + switch + " given.")
 		return "bad"
 	#This falls through whenever check_num_args returns false.
-	print "argument list:"
-	print arg_list
+	print("argument list:")
+	print(arg_list)
 
 #Make sure the number of arguments to a function is good.
 def check_num_args(num_of_args, lower_num, upper_num, command_name):
 	if num_of_args < lower_num or num_of_args > upper_num:
-		print command_name + " called with wrong number of arguments."
+		print(command_name + " called with wrong number of arguments.")
 		return 0
 	return 1
 
@@ -459,8 +459,8 @@ def check_types_args(args, arg_types, command_name, quiet=0):
 		if args[i] == "bad": return 0
 		if args[i][1] != arg_types[i] and arg_types[i] != 2:
 			if quiet == 0:
-				print command_name + " called with wrong type of arguments:"
-				print args
+				print(command_name + " called with wrong type of arguments:")
+				print(args)
 			return 0
 	return 1
 
@@ -476,8 +476,8 @@ def script_addpix(x, y, z, argument_array): #add a picture to the tile.
 		return "bad"
 
 	if not g.tiles.has_key(argument_array[0][0][1:-1]):
-		print "Tile "+argument_array[0][0][1:-1]+" does not exist in map "+\
-			g.maps[z].name
+		print("Tile "+argument_array[0][0][1:-1]+" does not exist in map "+\
+			g.maps[z].name)
 		return 0
 	g.maps[z].field[y][x].add_pix(g.tiles[argument_array[0][0][1:-1]])
 	return 1
@@ -495,7 +495,7 @@ def script_addskill(x, y, z, argument_array): #add a skill
 
 	temp = g.findskill(argument_array[0][0][1:-1])
 	if temp == -1:
-		print "Unknown skill: " + argument_array[0][0][1:-1]
+		print("Unknown skill: " + argument_array[0][0][1:-1])
 		return 0
 	else:
 		return g.add_skill(temp)
@@ -519,7 +519,7 @@ def script_attack(x, y, z, argument_array):  #cause creature to attack
 				temp = monster_num
 				break
 		else:
-			print "monster " + temp_name + " not found"
+			print("monster " + temp_name + " not found")
 	#if there exists a monster to battle:
 	if temp != -1:
 		main.key_down = [False, False, False, False]
@@ -530,7 +530,7 @@ def script_damage_monster(x, y, z, argument_array):  #In battle, hurt monster fo
 		#adj_attack points, or Command points. *NOT* reduced by armor.
 	if (g.cur_window != "battle" and g.cur_window != "battle_item" and
 		g.cur_window != "battle_skill"):
-		print "damage_monster called outside of battle."
+		print("damage_monster called outside of battle.")
 		return -1
 
 	mon_num = battle.select_monster()
@@ -585,7 +585,7 @@ def script_equip(x, y, z, argument_array): #adjust equipment
 		elif switch3 == "gloves": equip_loc = 4
 		elif switch3 == "boots": equip_loc = 5
 		else:
-			print "unknown equipment space of " + switch3
+			print("unknown equipment space of " + switch3)
 			return "bad"
 		if player.equip[equip_loc] == -1: return "\"\""
 		return "\""+g.item.item[player.equip[equip_loc]].name+"\""
@@ -603,15 +603,15 @@ def script_equip(x, y, z, argument_array): #adjust equipment
 	elif switch2 == "give":
 		item_loc = g.item.finditem(switch3)
 		if item_loc == -1:
-			print "unknown item " + switch3
+			print("unknown item " + switch3)
 			return "bad"
 		if g.item.item[item_loc].type > 5:
-			print "item "+switch3+" cannot be worn"
+			print("item "+switch3+" cannot be worn")
 			return "bad"
 		player.equip[g.item.item[item_loc].type] = item_loc
 		return 1
 	else:
-		print "unknown switch for equip(): "+switch2
+		print("unknown switch for equip(): "+switch2)
 		return "bad"
 
 def script_fade(x, y, z, argument_array):
@@ -686,7 +686,7 @@ def script_gamestat(x, y, z, argument_array):
 		return int(y)
 	elif switch2 == "mapname":
 		return "\"" + g.maps[g.zgrid].name + "\""
-	else: print "Unknown stat: " + switch2
+	else: print("Unknown stat: " + switch2)
 	return "bad"
 
 def script_generic_dialog(x, y, z, argument_array):  #Custom dialog box.
@@ -735,7 +735,7 @@ def script_give(x, y, z, argument_array):  #Change stats. Note that negative num
 	elif switch2 == "gold": player.give_stat("gold", set_to)
 	elif switch2 == "exp": player.add_exp(set_to)
 	elif switch2 == "skillpoints": player.give_stat("skillpoints", set_to)
-	else: print "Unknown stat: " + switch2
+	else: print("Unknown stat: " + switch2)
 	main.refresh_bars()
 	main.refresh_inv_icon()
 	if set_to == 0: return 0
@@ -763,7 +763,7 @@ def script_hurt_monster(x, y, z, argument_array):  #In battle, hurt monster for 
 		#adj_attack points, or Command points. Reduced by armor.
 	if (g.cur_window != "battle" and g.cur_window != "battle_item" and
 		g.cur_window != "battle_skill"):
-		print "hurt_monster called outside of battle."
+		print("hurt_monster called outside of battle.")
 		return -1
 
 	mon_num = battle.select_monster()
@@ -818,7 +818,7 @@ def script_if(x, y, z, argument_array):
 		if (line_return1 > line_return2): return "if"
 		else: return "else"
 	else: #of the form eg "if var something
-		print "if command was given an unknown comparison: " + compare
+		print("if command was given an unknown comparison: " + compare)
 		return 0
 
 def script_info(x, y, z, argument_array):  #display line of text in textbox below main screen
@@ -838,7 +838,7 @@ def script_inv(x, y, z, argument_array): #inventory functions.
 
 	temp = g.item.finditem(argument_array[1][0][1:-1])
 	if temp == -1:
-		print "Item " + argument_array[1][0][1:-1] + " does not exist."
+		print("Item " + argument_array[1][0][1:-1] + " does not exist.")
 		return "bad"
 
 	switch2 = argument_array[0][0][1:-1].lower()
@@ -860,7 +860,7 @@ def script_inv(x, y, z, argument_array): #inventory functions.
 		tmptype = g.item.item[temp].type
 		if (tmptype != 11 and tmptype != 12 and tmptype != 14 and tmptype != 15
 							and tmptype != 16 and tmptype != 17):
-			print "item " + g.item.item[temp].name + " cannot be used."
+			print("item " + g.item.item[temp].name + " cannot be used.")
 			return "bad"
 		if (g.cur_window == "battle" or g.cur_window == "battle_item" or
 		g.cur_window == "battle_skill") and (tmptype != 16):
@@ -871,8 +871,8 @@ def script_inv(x, y, z, argument_array): #inventory functions.
 			main.inv.use_item(temp)
 			return 1
 		else:
-			print "item " + g.item.item[temp].name + " cannot be used in " \
-				+ g.cur_window
+			print("item " + g.item.item[temp].name + " cannot be used in " \
+				+ g.cur_window)
 			return "bad"
 	elif switch2 == "type":
 		return g.item.item[temp].type
@@ -895,7 +895,7 @@ def script_inv(x, y, z, argument_array): #inventory functions.
 	elif switch2 == "defense_bonus":
 		return g.item.item[temp].defense_bonus
 	else:
-		print "Unknown switch " + argument_array[0][0][1:-1] + "found."
+		print("Unknown switch " + argument_array[0][0][1:-1] + "found.")
 		return "bad"
 
 def script_inv_spot(x, y, z, argument_array): #return name of given inv item.
@@ -904,7 +904,7 @@ def script_inv_spot(x, y, z, argument_array): #return name of given inv item.
 
 	#hardcoding is temporary.
 	if argument_array[0][0] < 0 or argument_array[0][0] > 27:
-		print "inv location is impossible: " + str(argument_array[0][0])
+		print("inv location is impossible: " + str(argument_array[0][0]))
 		return "bad"
 	if g.item.inv[argument_array[0][0]] == -1: return "\"\""
 	return "\""+g.item.item[g.item.inv[argument_array[0][0]]].name+"\""
@@ -975,10 +975,10 @@ def script_mapspot(x, y, z, argument_array):
 	if switch2 == "x_bound":
 		return len(g.maps[tmpzgrid].field[0])
 	else:
-		print "unknown switch "+switch2+" in mapspot."
-		print "possible: walk, pix, num_of_dropped, num_of_addpix,"
-		print "num_of_addoverpix, wall_n, wall_s, wall_w, wall_e,"
-		print "within_bounds, y_bound, or x_bound."
+		print("unknown switch "+switch2+" in mapspot.")
+		print("possible: walk, pix, num_of_dropped, num_of_addpix,")
+		print("num_of_addoverpix, wall_n, wall_s, wall_w, wall_e,")
+		print("within_bounds, y_bound, or x_bound.")
 		return "bad"
 
 def script_mapstat(x, y, z, argument_array):
@@ -1018,7 +1018,7 @@ def script_monster_give_stat(x, y, z, argument_array):
 		return "bad"
 	if (g.cur_window != "battle" and g.cur_window != "battle_item" and
 		g.cur_window != "battle_skill"):
-		print "monster_stat called outside of battle."
+		print("monster_stat called outside of battle.")
 		return -1
 
 	if (type(argument_array[0][0])=="str" and
@@ -1052,7 +1052,7 @@ def script_monster_give_stat(x, y, z, argument_array):
 	elif switch3 == "exp":
 		battle.monster_list[mon_num].exp += argument_array[2][0]
 	else:
-		print "Bad stat of " + switch3 + " used in monster_give_stat."
+		print("Bad stat of " + switch3 + " used in monster_give_stat.")
 		return -1
 	battle.set_description_text(mon_num)
 
@@ -1063,7 +1063,7 @@ def script_monster_stat(x, y, z, argument_array):
 		return "bad"
 	if (g.cur_window != "battle" and g.cur_window != "battle_item" and
 		g.cur_window != "battle_skill"):
-		print "monster_stat called outside of battle."
+		print("monster_stat called outside of battle.")
 		return -1
 
 	switch2 = argument_array[0][0]
@@ -1089,14 +1089,14 @@ def script_monster_stat(x, y, z, argument_array):
 	elif switch3 == "exp":
 		return battle.monster_list[mon_num].exp
 	else:
-		print "Bad stat of " + switch3 + " used in monster_stat."
+		print("Bad stat of " + switch3 + " used in monster_stat.")
 		return -1
 
 def script_monster_select(x, y, z, argument_array):  #In battle, ask the player to
 									#select a monster
 	if (g.cur_window != "battle" and g.cur_window != "battle_item" and
 		g.cur_window != "battle_skill"):
-		print "monster_select called outside of battle."
+		print("monster_select called outside of battle.")
 		return -1
 
 	mon_num = battle.select_monster()
@@ -1125,7 +1125,7 @@ def script_move(x, y, z, argument_array):  #move the player
 		g.pygame.time.wait(90)
 	g.allow_move = 0
 	if debug == 1:
-		print clock() - tmp
+		print(clock() - tmp)
 	return 1
 
 def script_pass(x, y, z, argument_array):  #do nothing
@@ -1141,7 +1141,7 @@ def script_pix(x, y, z, argument_array):  #change tile picture
 	return 1
 
 def script_printvars(x, y, z, argument_array): #debug: print all variables
-	print g.var_list
+	print(g.var_list)
 	return 1
 
 def script_question(x, y, z, argument_array):  #yes/no dialog box
@@ -1195,7 +1195,7 @@ def script_set(x, y, z, argument_array):  #set variable (in g.var_list)
 
 	operation_char = argument_array[1][0][1:-1]
 	if len(operation_char) != 1:
-		print "set command called with unknown operator: " + operation_char
+		print("set command called with unknown operator: " + operation_char)
 		return "bad"
 
 	if argument_array[2][1] == 0: #int
@@ -1212,7 +1212,7 @@ def script_set(x, y, z, argument_array):  #set variable (in g.var_list)
 
 	#Make sure the number to add is a number.
 	if argument_array[2][1] == 1:
-		print "set cannot add a string to a variable."
+		print("set cannot add a string to a variable.")
 		return "bad"
 
 	#Make sure the var to change exists.
@@ -1226,7 +1226,7 @@ def script_set(x, y, z, argument_array):  #set variable (in g.var_list)
 								g.var_list[command2][1:].isdigit() == 1):
 			g.var_list[command2] = int(g.var_list[command2])
 		else:
-			print "set cannot add a variable to a string."
+			print("set cannot add a variable to a string.")
 			return "bad"
 
 	#Now we know that both numbers are actually numbers. Add them together.
@@ -1249,8 +1249,8 @@ def script_set(x, y, z, argument_array):  #set variable (in g.var_list)
 		g.var_list[command2] = pow(g.var_list[command2], set_to)
 		return 1
 	else:
-		print "set command called with unknown operator: " + operation_char
-		print "possible operators: +, -, *, /, %, ^."
+		print("set command called with unknown operator: " + operation_char)
+		print("possible operators: +, -, *, /, %, ^.")
 		return "bad"
 
 def script_skill(x, y, z, argument_array):  #skill functions
@@ -1259,7 +1259,7 @@ def script_skill(x, y, z, argument_array):  #skill functions
 
 	temp = g.findskill(argument_array[1][0][1:-1])
 	if temp == -1:
-		print "Skill " + argument_array[1][0][1:-1] + " does not exist."
+		print("Skill " + argument_array[1][0][1:-1] + " does not exist.")
 		return "bad"
 
 	if argument_array[0][0][1:-1].lower() == "has":
@@ -1282,12 +1282,12 @@ def script_skill(x, y, z, argument_array):  #skill functions
 	elif argument_array[0][0][1:-1].lower() == "use":
 		if (g.cur_window != "battle" and g.cur_window != "battle_item" and
 				g.cur_window != "battle_skill"):
-			print "Cannot use skills outside of battle."
+			print("Cannot use skills outside of battle.")
 			return "bad"
 		battle.useskill(temp, 1)
 		return 1
 	else:
-		print "Unknown switch " + argument_array[0][0][1:-1] + "found."
+		print("Unknown switch " + argument_array[0][0][1:-1] + "found.")
 		return "bad"
 
 def script_stat(x, y, z, argument_array):  #return stat
@@ -1311,7 +1311,7 @@ def script_stat(x, y, z, argument_array):  #return stat
 	elif switch2 == "level": return player.level
 	elif switch2 == "skillpoints": return player.skillpoints
 	else:
-		print "Unknown stat: " + switch2
+		print("Unknown stat: " + switch2)
 		return 0
 
 def script_store(x, y, z, argument_array):  #enter store

@@ -26,6 +26,7 @@
 #from Tkinter import *
 #import ImageTk
 #needed for die_roll
+import sys
 import pygame
 
 from random import random
@@ -233,7 +234,7 @@ def loadgame_31(save_file):
 	savefile=open(save_loc, 'r')
 	version = pickle.load(savefile)
 	if version != "dh3.2":
-		print "Old savefile version. Try an earlier version of DH."
+		print("Old savefile version. Try an earlier version of DH.")
 		return -1
 	player.name = pickle.load(savefile)
 	player.hp = pickle.load(savefile)
@@ -693,7 +694,7 @@ def mapname2zgrid(name):
 		if maps[i].name == name:
 			return i
 	else:
-		print "file " + name + " not found"
+		print("file " + name + " not found")
 		return -1
 
 tiles = {}
@@ -781,7 +782,7 @@ def load_sounds():
 	try:
 		pygame.mixer.init()
 	except:
-		print "Unable to init sound."
+		print("Unable to init sound.")
 		nosound = 1
 		return 0
 
@@ -803,7 +804,7 @@ def load_sounds():
 
 def play_sound(sound_name):
 	if not sounds.has_key(sound_name):
-		print "missing sound set "+sound_name
+		print("missing sound set "+sound_name)
 	dict_size = len(sounds[sound_name])
 
 	sounds[sound_name][int(random() * dict_size)].play()
@@ -837,7 +838,7 @@ fill_colors()
 #of all images in that directory, and all subdirectories.
 def read_images(dir_name):
 	if pygame.image.get_extended() == 0:
-		print "Error: SDL_image required. Exiting."
+		print("Error: SDL_image required. Exiting.")
 		sys.exit()
 	image_dictionary =  {"blank" : pygame.Surface((32, 32))}
 	image_dictionary = inner_read_images("../modules/default/" + dir_name,
@@ -864,7 +865,7 @@ def inner_read_images(dir_name, image_dictionary):
 						image_dictionary[tilename] = \
 							pygame.image.load(root + "/" + tilename).convert_alpha()
 		except pygame.error:
-			print root[i:] + "/" + tilename + " failed to load"
+			print(root[i:] + "/" + tilename + " failed to load")
 	return image_dictionary
 
 #creates a box, as used throughout the game.
