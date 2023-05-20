@@ -1,8 +1,8 @@
 import pygame
 
 class Character:
-    def __init__(self, name, health, mana, attack_power, magic_power, defense_armor, defense_magic):
-        self.name = name
+    def __init__(self, className, health, mana, attack_power, magic_power, defense_armor, defense_magic):
+        self.className = className
         self.health = health
         self.mana = mana
         self.attack_power = attack_power
@@ -21,4 +21,15 @@ class Character:
         print(f"{self.name} attacks {other_character.name} for {damage} damage.")
 
     def display_status(self):
-        print(f"{self.name} - Health: {self.health}, Attack Power: {self.attack_power}")
+        print(f"{self.className} - Health: {self.health}, Mana: {self.mana}")
+    
+    def listStats(self):
+        return [
+            f'Class: {self.className}', 
+            f'Health: {self.health}',
+            f'Mana: {self.mana}',
+            f'Attack Power: {self.attack_power}',
+            f'Magic Power: {self.magic_power}',
+            f'Defense Armor: {self.defense_armor}',
+            f'Magic Shield: {self.defense_magic}'
+        ]

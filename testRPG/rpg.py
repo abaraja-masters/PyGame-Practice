@@ -2,44 +2,33 @@ import pygame, sys
 from pygame.locals import *
 from button import Button
 from character import Character
+from helperVariables import *
 
 pygame.init()
 
-# Set up the colors
-BLACK = (0, 0, 0)
-WHITE = (255, 255, 255)
-RED = (255, 0, 0)
-GREEN = (0, 255, 0)
-BLUE = (0, 0, 255)
-GRAY = (128, 128, 128)
-PURPLE = (128, 0, 128)
-TEAL = (0, 128, 128)
-YELLOW = (255, 255, 0)
-
 # Set up display
-width, height = 1000, 800
 screen = pygame.display.set_mode((width, height))
-pygame.display.set_caption('Edgy RPG')
+pygame.display.set_caption(windowCaption)
 screenCenterX = screen.get_rect().centerx
 screenCenterY = screen.get_rect().centery
 
 # Set up Images
-background_image = pygame.image.load("Pictures\edgy_wallpaper01.jpg")
+background_image = pygame.image.load(menuWallpaper)
 background_image = pygame.transform.scale(background_image, (width, height))
 
-fighter_image = pygame.image.load("Pictures\\fighter01.png")
+fighter_image = pygame.image.load(warriorImg)
 fighter_image = pygame.transform.scale(fighter_image, (150, 150))
 
-rogue_image = pygame.image.load("Pictures\\rogue.png")
+rogue_image = pygame.image.load(rogueImg)
 rogue_image = pygame.transform.scale(rogue_image, (100, 100))
 
-mage_image = pygame.image.load("Pictures\\mage.png")
+mage_image = pygame.image.load(mageImg)
 mage_image = pygame.transform.scale(mage_image, (100, 100))
 
 # Set up the text
 basicFont = pygame.font.SysFont(None, 48)
 
-textMainMenu = basicFont.render('Edgy RPG', True, WHITE, BLACK)
+textMainMenu = basicFont.render(windowCaption, True, WHITE, BLACK)
 textRectMainMenu = textMainMenu.get_rect()
 textRectMainMenu.centerx = screenCenterX
 textRectMainMenu.centery = screenCenterY - 200
@@ -65,10 +54,8 @@ buttonMage = Button(screenCenterX + 125, screenCenterY, 150, 50, "Mage")
 buttonBack = Button(50, 50, 150, 50, "Back")
 
 # Set up the background music
-pygame.mixer.music.load('Sounds\DarkFantasySong.mp3')
+pygame.mixer.music.load(menuBGMusicFilePath)
 pygame.mixer.music.play(-1, 22.5)
-musicPlayingMainMenu = True
-musicPlayingBattleMenu = False
 
 # Set up screen current_screen
 current_screen = 1
@@ -80,18 +67,6 @@ playerCharacter = ''
 running = True
 while running:
     for event in pygame.event.get():
-
-        # Game music switch based on screen
-        if current_screen == 1 and musicPlayingBattleMenu == True:
-            pygame.mixer.music.load('Sounds\DarkFantasySong.mp3')
-            pygame.mixer.music.play(-1, 22.5)
-            musicPlayingMainMenu = True
-            musicPlayingBattleMenu = False
-        if current_screen == 2 and musicPlayingMainMenu == True:
-            pygame.mixer.music.load('Sounds\CharacterMusic.mp3')
-            pygame.mixer.music.play(-1, 0)
-            musicPlayingMainMenu = False
-            musicPlayingBattleMenu = True
         
         if event.type == QUIT:
             pygame.quit()
@@ -99,7 +74,7 @@ while running:
 
         # Check for mouse click events
         elif event.type == pygame.MOUSEBUTTONDOWN:
-            if event.button == 1:  # Left mouse button
+            if event.button == 1:
                 if current_screen == 1:
                     if button1.is_clicked(event.pos):
                         print("Start Game clicked!")
@@ -134,8 +109,6 @@ while running:
                     elif playerCharacter == 'Mage':
                         player = Character('Mage', 60, 50, 5, 25, 0, 10)
 
-
-
     screen.fill(BLACK)  # Clear the screen
     screen.blit(background_image, (0, 0))
     
@@ -157,16 +130,7 @@ while running:
         screen.blit(textCharacterSelection, textRectCharacterSelection)
         buttonBack.draw(screen)
         # Render and Display character stats
-        char_text_lines = [
-            'Class: ' + getattr(player, 'name'), 
-            'Health: ' + str(getattr(player, 'health')), 
-            'Mana: ' + str(getattr(player, 'mana')), 
-            'Physical Attack Power: ' + str(getattr(player, 'attack_power')), 
-            'Magical Attack Power: ' + str(getattr(player, 'magic_power')), 
-            'Physical Defense Armor: ' + str(getattr(player, 'defense_armor')),
-            'Magical Defense Shield: ' + str(getattr(player, 'defense_magic')) 
-        ]
-        for i, line in enumerate(char_text_lines):
+        for i, line in enumerate(player.listStats()):
             text_surface = basicFont.render(line, True, WHITE)  # White
             screen.blit(text_surface, (screenCenterX - 300, screenCenterY - 100 + i * 30))
 
