@@ -1,3 +1,6 @@
+import csv
+from character import Character
+
 # Text Variables:
 windowCaption = 'Edgy RPG'
 
@@ -23,3 +26,18 @@ mageImg = 'Pictures\\mage.png'
 
 # Sound File Path Variables:
 menuBGMusicFilePath = 'Sounds\DarkFantasySong.mp3'
+
+# Load Characters and Enemies from csv file to a Dictionary
+charDict = dict()
+with open('Datasets/characterDS.csv', newline='') as csvFile:
+    csvCharRecords = csv.DictReader(csvFile)
+    for record in csvCharRecords:
+        charDict[record["name"]] = Character(
+                                              record["name"], 
+                                              record["health"], 
+                                              record["mana"], 
+                                              record["attack_power"], 
+                                              record["magic_power"], 
+                                              record["defense_armor"], 
+                                              record["defense_magic"]
+                                            )

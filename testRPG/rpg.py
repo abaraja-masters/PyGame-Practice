@@ -3,6 +3,7 @@ from pygame.locals import *
 from button import Button
 from character import Character
 from helperVariables import *
+from eventHandler import *
 
 pygame.init()
 
@@ -69,8 +70,7 @@ while running:
     for event in pygame.event.get():
         
         if event.type == QUIT:
-            pygame.quit()
-            sys.exit()
+            quit()
 
         # Check for mouse click events
         elif event.type == pygame.MOUSEBUTTONDOWN:
@@ -82,9 +82,7 @@ while running:
                     elif button2.is_clicked(event.pos):
                         print("Options clicked!")
                     elif button3.is_clicked(event.pos):
-                        print("Quit Game clicked!")
-                        pygame.quit()
-                        sys.exit()
+                        quit()
                 if current_screen == 2:
                     if buttonBack.is_clicked(event.pos):
                         print("Back Button clicked!")
@@ -103,11 +101,11 @@ while running:
                         print("Back Button clicked!")
                         current_screen = 2
                     elif playerCharacter == 'Fighter':
-                        player = Character('Fighter', 100, 0, 20, 0, 10, 0)
+                        player = charDict["Fighter"]
                     elif playerCharacter == 'Rogue':
-                        player = Character('Rogue', 80, 20, 25, 10, 5, 50)
+                        player = charDict["Rogue"]
                     elif playerCharacter == 'Mage':
-                        player = Character('Mage', 60, 50, 5, 25, 0, 10)
+                        player = charDict["Mage"]
 
     screen.fill(BLACK)  # Clear the screen
     screen.blit(background_image, (0, 0))
