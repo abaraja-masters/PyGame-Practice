@@ -16,10 +16,16 @@ TEAL = (0, 128, 128)
 YELLOW = (255, 255, 0)
 
 # Dimension Variables:
-width, height = 1000, 800
+ingame_battle_bottom_panel = 200
+width, height = 800, 600 + ingame_battle_bottom_panel
+
 
 # Image File Path Variables:
 menuWallpaper = 'Pictures\edgy_wallpaper01.jpg'
+
+dungeonBG = 'Pictures\dungeon_background01.jpg'
+panelBG = 'Pictures\panel.png'
+
 warriorImg = 'Pictures\\fighter01.png'
 rogueImg = 'Pictures\\rogue.png'
 mageImg = 'Pictures\\mage.png'

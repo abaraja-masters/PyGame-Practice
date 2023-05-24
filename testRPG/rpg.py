@@ -1,3 +1,7 @@
+# File: rpg.py
+# Copyright (C) 2023 The Unlicense
+# This is the game initial driver, and is part of Edgy RPG.
+
 import pygame, sys
 from pygame.locals import *
 from button import Button
@@ -6,6 +10,9 @@ from helperVariables import *
 from eventHandler import *
 
 pygame.init()
+
+clock = pygame.time.Clock()
+fps = 60
 
 # Set up display
 screen = pygame.display.set_mode((width, height))
@@ -16,6 +23,11 @@ screenCenterY = screen.get_rect().centery
 # Set up Images
 background_image = pygame.image.load(menuWallpaper)
 background_image = pygame.transform.scale(background_image, (width, height))
+
+dungeon_background = pygame.image.load(dungeonBG) #.convert_alpha()
+dungeon_background = pygame.transform.scale(dungeon_background, (width, height - ingame_battle_bottom_panel))
+panel_background = pygame.image.load(panelBG) #.convert_alpha()
+panel_background = pygame.transform.scale(panel_background, (width, ingame_battle_bottom_panel))
 
 fighter_image = pygame.image.load(warriorImg)
 fighter_image = pygame.transform.scale(fighter_image, (150, 150))
@@ -54,6 +66,8 @@ buttonRogue = Button(screenCenterX - 75, screenCenterY, 150, 50, "Rogue")
 buttonMage = Button(screenCenterX + 125, screenCenterY, 150, 50, "Mage")
 buttonBack = Button(50, 50, 150, 50, "Back")
 
+buttonPlay = Button(screenCenterX, screenCenterY + 200, 150, 50, "Play")
+
 # Set up the background music
 pygame.mixer.music.load(menuBGMusicFilePath)
 pygame.mixer.music.play(-1, 22.5)
@@ -67,6 +81,9 @@ playerCharacter = ''
 # Game Loop
 running = True
 while running:
+
+    clock.tick(fps)
+    
     for event in pygame.event.get():
         
         if event.type == QUIT:
@@ -100,6 +117,9 @@ while running:
                     if buttonBack.is_clicked(event.pos):
                         print("Back Button clicked!")
                         current_screen = 2
+                    elif buttonPlay.is_clicked(event.pos):
+                        print("Play Button Click!")
+                        current_screen = 4
                     elif playerCharacter == 'Fighter':
                         player = charDict["Fighter"]
                     elif playerCharacter == 'Rogue':
@@ -108,14 +128,15 @@ while running:
                         player = charDict["Mage"]
 
     screen.fill(BLACK)  # Clear the screen
-    screen.blit(background_image, (0, 0))
     
-    if current_screen == 1:
+    if current_screen == 1:  # Main Menu
+        screen.blit(background_image, (0, 0))
         screen.blit(textMainMenu, textRectMainMenu)
         button1.draw(screen)
         button2.draw(screen)
         button3.draw(screen)
-    elif current_screen == 2:
+    elif current_screen == 2:  # Player Character Selection
+        screen.blit(background_image, (0, 0))
         screen.blit(textBattleMenu, textRectBattleMenu)
         buttonFighter.draw(screen)
         buttonRogue.draw(screen)
@@ -124,13 +145,18 @@ while running:
         screen.blit(fighter_image, (screenCenterX - 275, screenCenterY - 175))
         screen.blit(rogue_image, (screenCenterX - 75, screenCenterY - 150))
         screen.blit(mage_image, (screenCenterX + 125, screenCenterY - 150))
-    elif current_screen == 3:
+    elif current_screen == 3:  # Display Player Character Stats
+        screen.blit(background_image, (0, 0))
         screen.blit(textCharacterSelection, textRectCharacterSelection)
         buttonBack.draw(screen)
+        buttonPlay.draw(screen)
         # Render and Display character stats
         for i, line in enumerate(player.listStats()):
             text_surface = basicFont.render(line, True, WHITE)  # White
             screen.blit(text_surface, (screenCenterX - 300, screenCenterY - 100 + i * 30))
+    elif current_screen == 4:  # Battle Screen
+        screen.blit(dungeon_background, (0, 0))
+        screen.blit(panel_background, (0, height - ingame_battle_bottom_panel))
 
     pygame.display.update()
 
