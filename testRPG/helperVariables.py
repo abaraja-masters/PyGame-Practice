@@ -26,9 +26,9 @@ menuWallpaper = 'Pictures\edgy_wallpaper01.jpg'
 dungeonBG = 'Pictures\dungeon_background01.jpg'
 panelBG = 'Pictures\panel.png'
 
-warriorImg = 'Pictures\\fighter01.png'
-rogueImg = 'Pictures\\rogue.png'
-mageImg = 'Pictures\\mage.png'
+#warriorImg = 'Pictures\\heroes\\warrior\\fighter01.png'
+#rogueImg = 'Pictures\\heroes\\rogue\\rogue.png'
+#mageImg = 'Pictures\\heroes\\mage\\mage.png'
 
 # Sound File Path Variables:
 menuBGMusicFilePath = 'Sounds\DarkFantasySong.mp3'
@@ -45,5 +45,6 @@ with open('Datasets/characterDS.csv', newline='') as csvFile:
                                               record["attack_power"], 
                                               record["magic_power"], 
                                               record["defense_armor"], 
-                                              record["defense_magic"]
+                                              record["defense_magic"],
+                                              record["image_file_path"]
                                             )

@@ -29,14 +29,17 @@ dungeon_background = pygame.transform.scale(dungeon_background, (width, height -
 panel_background = pygame.image.load(panelBG) #.convert_alpha()
 panel_background = pygame.transform.scale(panel_background, (width, ingame_battle_bottom_panel))
 
-fighter_image = pygame.image.load(warriorImg)
+fighter_image = pygame.image.load(charDict["Fighter"].get_imagefilepath())
 fighter_image = pygame.transform.scale(fighter_image, (150, 150))
 
-rogue_image = pygame.image.load(rogueImg)
+rogue_image = pygame.image.load(charDict["Rogue"].get_imagefilepath())
 rogue_image = pygame.transform.scale(rogue_image, (100, 100))
 
-mage_image = pygame.image.load(mageImg)
+mage_image = pygame.image.load(charDict["Mage"].get_imagefilepath())
 mage_image = pygame.transform.scale(mage_image, (100, 100))
+
+rat_image = pygame.image.load(charDict["Rat1"].get_imagefilepath())
+rat_image = pygame.transform.scale(rat_image, (100, 100))
 
 # Set up the text
 basicFont = pygame.font.SysFont(None, 48)
@@ -157,6 +160,13 @@ while running:
     elif current_screen == 4:  # Battle Screen
         screen.blit(dungeon_background, (0, 0))
         screen.blit(panel_background, (0, height - ingame_battle_bottom_panel))
+        # Player Side
+        player.draw(screen, 650, 460)
+        # Enemy Side
+        rat1 = charDict["Rat1"]
+        rat2 = charDict["Rat1"]
+        rat1.draw(screen, 100, 460)
+        rat2.draw(screen, 300, 460)
 
     pygame.display.update()
 
